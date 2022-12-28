@@ -91,7 +91,7 @@ function AbrirModalParaAvaliacao(value) {
         success: function (response) {
             $("#formularioAvaliacao").empty();
             $("#formularioAvaliacao").append(response);
-            $('.form-control').mask("00,00", { reverse: true });
+            //$('.form-control').mask("00,00", { reverse: true });
             $('#modalAvaliacao').modal('show')
 
         },

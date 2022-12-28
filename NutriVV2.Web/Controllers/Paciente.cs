@@ -7,28 +7,29 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NutriV2;
+using NutriV2.Svc;
 
 namespace NutriVV2.Web.Controllers
 {
     public class Paciente : Controller
     {
-        NutriDbContext db = new NutriDbContext();
         public ActionResult Index(int? Id)
         {
-            List<NutriV2.Domain.Paciente> pacientes = db.pacientes.ToList();
-            db.Dispose();
+            List<NutriV2.Domain.Paciente> pacientes = SvcPaciente.ListarPacientes();
             if (Id.HasValue)
             {
-                ViewBag.Paciente = pacientes.Find(p => p.Id == Id);
+                ViewBag.Paciente = SvcPaciente.BuscarPacienteCompleto(Id.Value);
             }
             return View(pacientes);
         }
 
+        [HttpGet]
         public ActionResult Details(int id)
         {
             return View();
         }
 
+        [HttpGet]
         public ActionResult Create()
         {
             return PartialView("AcoesPaciente/_FormularioPaciente");
@@ -41,11 +42,9 @@ namespace NutriVV2.Web.Controllers
             {
                 if (paciente != null)
                 {
-                    db.pacientes.Add(paciente);
-                    db.SaveChanges();
+                    SvcPaciente.CadastrarPaciente(paciente);
                     ViewBag.Paciente = paciente;
-                    var pacientes = db.pacientes.ToList();
-                    db.Dispose();
+                    var pacientes = SvcPaciente.ListarPacientes();
                     return PartialView("AcoesPaciente/_Conteudo", pacientes);
                 }
                 return RedirectToAction(nameof(Index));
@@ -58,8 +57,7 @@ namespace NutriVV2.Web.Controllers
 
         public ActionResult Edit(int id)
         {
-            var paciente = db.pacientes.Find(id);
-            db.Dispose();
+            var paciente = SvcPaciente.BuscarPacienteCompleto(id);
             return PartialView("AcoesPaciente/_FormularioPaciente", paciente);
         }
 
@@ -71,11 +69,9 @@ namespace NutriVV2.Web.Controllers
             {
                 if (paciente != null)
                 {
-                    db.pacientes.Update(paciente);
-                    db.SaveChanges();
+                    SvcPaciente.AtualizarPaciente(paciente);
                     ViewBag.Paciente = paciente;
-                    var pacientes = db.pacientes.ToList();
-                    db.Dispose();
+                    var pacientes = SvcPaciente.ListarPacientes();
                     return PartialView("AcoesPaciente/_Conteudo", pacientes);
                 }
                 return RedirectToAction(nameof(Index));
@@ -86,19 +82,13 @@ namespace NutriVV2.Web.Controllers
             }
         }
 
-
         [HttpPost]
         public ActionResult Delete(int Id)
         {
             try
             {
-                var paciente = db.pacientes.Find(Id);
-                db.pacientes.Remove(paciente);
-                db.SaveChanges();
-
-                var pacientes = db.pacientes.ToList();
-                db.Dispose();
-
+                SvcPaciente.DeletarPaciente(Id);
+                var pacientes = SvcPaciente.ListarPacientes();
                 return PartialView("AcoesPaciente/_Conteudo", pacientes);
             }
             catch
@@ -106,11 +96,11 @@ namespace NutriVV2.Web.Controllers
                 return View();
             }
         }
+
         [HttpGet]
         public ActionResult AvaliacoesDoPaciente(int Id)
         {
-            NutriV2.Domain.Paciente paciente = db.pacientes.Include(a=>a.Avaliacoes).FirstOrDefault(p=>p.Id == Id);
-            db.Dispose();
+            NutriV2.Domain.Paciente paciente = SvcPaciente.BuscarPacienteCompleto(Id);
             return View("AvaliacoesPaciente",paciente);
         }
 
@@ -118,39 +108,42 @@ namespace NutriVV2.Web.Controllers
         public ActionResult CadastraAvaliacaoPaciente(int pacienteId) 
         {
             ViewBag.IdPaciente = pacienteId;
-            ViewBag.AvaliacaoAnterior = db.AvaliacoesFisicas.OrderBy(p=>p.DataAvaliacao).LastOrDefault(p=>p.PacienteId == pacienteId);
+            ViewBag.AvaliacaoAnterior = SvcAvaliacao.ListarAvaliacoesPorPaciente(pacienteId).OrderBy(p=>p.DataAvaliacao).LastOrDefault();
             return PartialView("AcoesAvaliacao/_FomularioAvaliacao");
         }
 
         [HttpPost]
         public ActionResult CadastraAvaliacaoPaciente(int IdPaciente, NutriV2.Domain.AvaliacaoFisica avaliacao)
         {
-            avaliacao.Paciente = db.pacientes.Find(IdPaciente);
-            db.AvaliacoesFisicas.Add(avaliacao);
-            db.SaveChanges();
-            NutriV2.Domain.Paciente paciente = db.pacientes.Include(a => a.Avaliacoes).FirstOrDefault(p => p.Id == avaliacao.Paciente.Id);
-            db.Dispose();
-            return PartialView("AcoesAvaliacao/_ConteudoAvaliacao", paciente.Avaliacoes);
+            if(avaliacao !=null && avaliacao.PacienteId > 0) 
+            {
+                SvcAvaliacao.CadastrarAvaliacao(avaliacao);
+                NutriV2.Domain.Paciente paciente = SvcPaciente.BuscarPacienteCompleto(avaliacao.PacienteId);
+                return PartialView("AcoesAvaliacao/_ConteudoAvaliacao", paciente.Avaliacoes);
+            }
+           
+            return PartialView("AcoesAvaliacao/_ConteudoAvaliacao");
         }
 
         [HttpGet]
         public ActionResult EditarAvaliacaoPaciente(int Id)
         {
            
-            NutriV2.Domain.AvaliacaoFisica avaliacao = db.AvaliacoesFisicas.Find(Id);
-            //ViewBag.IdPaciente = avaliacao.Paciente.i;
+            NutriV2.Domain.AvaliacaoFisica avaliacao = SvcAvaliacao.BuscarAvalicao(Id);
             return PartialView("AcoesAvaliacao/_FomularioAvaliacao",avaliacao);
         }
 
         [HttpPost]
         public ActionResult EditarAvaliacaoPaciente(int IdPaciente, NutriV2.Domain.AvaliacaoFisica avaliacao)
         {
-            //avaliacao.Paciente = db.pacientes.Find(IdPaciente);
-            db.AvaliacoesFisicas.Update(avaliacao);
-            db.SaveChanges();
-            NutriV2.Domain.Paciente paciente = db.pacientes.Include(a => a.Avaliacoes).FirstOrDefault(p => p.Id == avaliacao.PacienteId);
-            db.Dispose();
-            return PartialView("AcoesAvaliacao/_ConteudoAvaliacao", paciente.Avaliacoes);
+            if (avaliacao != null && avaliacao.PacienteId > 0) 
+            {
+                SvcAvaliacao.EditarAvaliacao(avaliacao);
+                NutriV2.Domain.Paciente paciente = SvcPaciente.BuscarPacienteCompleto(avaliacao.PacienteId);
+                return PartialView("AcoesAvaliacao/_ConteudoAvaliacao", paciente.Avaliacoes);
+            }
+            
+            return PartialView("AcoesAvaliacao/_ConteudoAvaliacao");
         }
     }
 }

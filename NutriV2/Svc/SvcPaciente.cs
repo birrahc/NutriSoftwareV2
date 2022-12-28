@@ -18,6 +18,7 @@ namespace NutriV2.Svc
                 db.pacientes.Add(pPaciente);
                 db.SaveChanges();
                 db.Dispose();
+                
             }
             catch (Exception ex)
             {
@@ -40,12 +41,13 @@ namespace NutriV2.Svc
             }
         }
 
-        public static void DeletarPaciente(Paciente pPaciente)
+        public static void DeletarPaciente(int pIdPaciente)
         {
             try
             {
+                var paciente = BuscarPacienteCompleto(pIdPaciente);
                 NutriDbContext db = new NutriDbContext();
-                db.Remove(pPaciente);
+                db.Remove(paciente);
                 db.SaveChanges();
                 db.Dispose();
             }
@@ -68,13 +70,26 @@ namespace NutriV2.Svc
                 throw new Exception("Erro ao listar pacientes", ex);
             }
         }
-
-        public static Paciente BuscarPaciente(int pIdPaciente) 
+        public Paciente BuscarPaciente(int pIdPaciente) 
         {
             try
             {
                 NutriDbContext db = new NutriDbContext();
-                Paciente paciente = db.pacientes.Include(a => a.Avaliacoes).FirstOrDefault(p => p.Id == pIdPaciente);
+                Paciente paciente = db.pacientes.Find(pIdPaciente);
+                db.Dispose();
+                return paciente;
+            }
+            catch (Exception ex) 
+            {
+                throw new Exception("Erro ao buscar paciente", ex);
+            }
+        }
+        public static Paciente BuscarPacienteCompleto(int pIdPaciente) 
+        {
+            try
+            {
+                NutriDbContext db = new NutriDbContext();
+                Paciente paciente = db.pacientes.Include(a => a.Avaliacoes).Include(p=>p.Consultas).FirstOrDefault(p => p.Id == pIdPaciente);
                 db.Dispose();
                 return paciente;
             }
