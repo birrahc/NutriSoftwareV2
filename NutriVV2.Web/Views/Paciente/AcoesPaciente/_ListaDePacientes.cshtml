@@ -1,0 +1,10 @@
+﻿@model IEnumerable<NutriV2.Domain.Paciente>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="ml-4"><a href="@Url.Action("Index", "Paciente", new { Id = item.Id })" class="text-decoration-none" style="color: #5b5a5a; font-size:20px;">@item.Nome</a> </td>
+        </tr>
+    }
+

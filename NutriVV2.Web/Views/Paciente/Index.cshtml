@@ -1,0 +1,23 @@
+﻿@model IEnumerable<NutriV2.Domain.Paciente>
+
+@{
+    NutriV2.Domain.Paciente pacienteDetalhado = ViewBag.Paciente;
+}
+<div class="container-fluid" id="Conteudo">
+    @*<partial name="_Conteudo" for="@Model" />*@
+    <partial name="AcoesPaciente/_Conteudo" for="@Model" />
+</div>
+
+
+<div class="modal fade" id="modalPaciente" tabindex="-1" aria-labelledby="modalPaciente" aria-hidden="true">
+    <div class="modal-dialog modal-lg" id="formularioPaciente">
+        @*_ForumarioPaciente*@
+
+    </div>
+</div>
+@section Scripts{
+
+    @{
+        Html.RenderPartial("_PacienteJS");
+    }
+}
