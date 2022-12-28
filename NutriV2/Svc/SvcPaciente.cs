@@ -70,7 +70,7 @@ namespace NutriV2.Svc
                 throw new Exception("Erro ao listar pacientes", ex);
             }
         }
-        public Paciente BuscarPaciente(int pIdPaciente) 
+        public static Paciente BuscarPaciente(int pIdPaciente) 
         {
             try
             {
@@ -89,7 +89,7 @@ namespace NutriV2.Svc
             try
             {
                 NutriDbContext db = new NutriDbContext();
-                Paciente paciente = db.pacientes.Include(a => a.Avaliacoes).Include(p=>p.Consultas).FirstOrDefault(p => p.Id == pIdPaciente);
+                Paciente paciente = db.pacientes.Include(a => a.Avaliacoes).Include(p=>p.HorariosAgendados).Include(p=>p.Consultas).FirstOrDefault(p => p.Id == pIdPaciente);
                 db.Dispose();
                 return paciente;
             }

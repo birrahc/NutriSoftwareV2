@@ -5,11 +5,13 @@ namespace NutriV2.Domain
 {
     public class Pagamento
     {
-      public int Id { get; set; }  
-      public int ConsultaId { get; set; }
-      public EN_TipoPagamento TipoDePagamento { get; set; }
-      public DateTime Data { get; set; }
-    //   public Consulta ? Consulta { get; set; }
-      public DateTime ? DataVencimento { get; set; }
+        public int Id { get; set; }
+        public int ConsultaId { get; set; }
+        public EN_TipoPagamento TipoDePagamento { get; set; }
+        public DateTime Data { get; set; }
+        //   public Consulta ? Consulta { get; set; }
+        public DateTime? DataVencimento { get; set; }
+        public int PacienteId { get; set; }
+        public Paciente Paciente { get; set; }
     }
 }
