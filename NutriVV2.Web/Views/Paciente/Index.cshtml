@@ -4,7 +4,6 @@
     NutriV2.Domain.Paciente pacienteDetalhado = ViewBag.Paciente;
 }
 <div class="container-fluid" id="Conteudo">
-    @*<partial name="_Conteudo" for="@Model" />*@
     <partial name="AcoesPaciente/_Conteudo" for="@Model" />
 </div>
 
@@ -12,9 +11,40 @@
 <div class="modal fade" id="modalPaciente" tabindex="-1" aria-labelledby="modalPaciente" aria-hidden="true">
     <div class="modal-dialog modal-lg" id="formularioPaciente">
         @*_ForumarioPaciente*@
-
     </div>
 </div>
+
+<div class="modal fade" id="modalObservacaoPaciente" tabindex="-1" aria-labelledby="modalObservacaoPaciente" aria-hidden="true">
+    <div class="modal-dialog modal-lg" id="formularioObservacaoPaciente">
+        @*<div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cadastrar observação</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" id="formularioObservacaoPaciente" class="p-0">
+                <input type="hidden" asp-for="@Model.FirstOrDefault().Anotacoes."  ident-paciente="pacienteId" />
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <label>Anotação:</label>
+                            <div class="md-form">
+                                <i class="fas fa-pencil-alt prefix"></i>
+                                <textarea id="obs_paciente" class="md-textarea form-control" rows="7"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="CadastrarEditarAnotacoesPaciente();" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>*@
+    </div>
+</div>
+
 @section Scripts{
 
     @{

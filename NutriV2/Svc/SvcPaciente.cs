@@ -89,7 +89,12 @@ namespace NutriV2.Svc
             try
             {
                 NutriDbContext db = new NutriDbContext();
-                Paciente paciente = db.pacientes.Include(a => a.Avaliacoes).Include(p=>p.HorariosAgendados).Include(p=>p.Consultas).FirstOrDefault(p => p.Id == pIdPaciente);
+                Paciente paciente = db.pacientes.Include(a => a.Avaliacoes)
+                                                .Include(p=>p.Pagamentos)
+                                                .Include(p=>p.HorariosAgendados)
+                                                .Include(p=>p.Consultas)
+                                                .Include(p=>p.Anotacoes)
+                                                .FirstOrDefault(p => p.Id == pIdPaciente);
                 db.Dispose();
                 return paciente;
             }
@@ -97,6 +102,15 @@ namespace NutriV2.Svc
             {
                 throw new Exception("Erro ao buscar paciente", ex);
             }
+        }
+
+        public static List<Paciente> PesquisarPaciente(string pNome) 
+        {
+            NutriDbContext db = new NutriDbContext();
+            var query = from e in db.pacientes
+                        where EF.Functions.Like(e.Nome, $"%{pNome}%")
+                        select e;
+            return query.ToList();
         }
 
        

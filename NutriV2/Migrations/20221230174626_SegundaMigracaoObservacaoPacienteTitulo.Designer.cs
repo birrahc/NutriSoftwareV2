@@ -3,14 +3,16 @@ using System;
 using Data.NutriDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace NutriV2.Migrations
 {
     [DbContext(typeof(NutriDbContext))]
-    partial class NutriDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221230174626_SegundaMigracaoObservacaoPacienteTitulo")]
+    partial class SegundaMigracaoObservacaoPacienteTitulo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

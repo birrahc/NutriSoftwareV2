@@ -20,7 +20,7 @@
     };
 
 
-    $('.form-control').mask("00,00", { reverse: true });
+    //$('.form-control').mask("00,00", { reverse: true });
         
     
 

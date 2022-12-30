@@ -3,14 +3,16 @@ using System;
 using Data.NutriDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace NutriV2.Migrations
 {
     [DbContext(typeof(NutriDbContext))]
-    partial class NutriDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221228202036_SegundaMigracao")]
+    partial class SegundaMigracao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,31 +79,6 @@ namespace NutriV2.Migrations
                     b.HasIndex("PacienteId1");
 
                     b.ToTable("ANMINESE");
-                });
-
-            modelBuilder.Entity("NutriV2.Domain.AnotacoesPaciente", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Anotacoes")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime?>("Data")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("PacienteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Titulo")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PacienteId");
-
-                    b.ToTable("AnotacosPaciente");
                 });
 
             modelBuilder.Entity("NutriV2.Domain.AvaliacaoFisica", b =>
@@ -186,7 +163,7 @@ namespace NutriV2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("AvaliacaoId")
+                    b.Property<int>("AvaliacaoId")
                         .HasColumnType("int");
 
                     b.Property<int>("PacienteId")
@@ -349,15 +326,6 @@ namespace NutriV2.Migrations
                         .HasForeignKey("PacienteId1");
                 });
 
-            modelBuilder.Entity("NutriV2.Domain.AnotacoesPaciente", b =>
-                {
-                    b.HasOne("NutriV2.Domain.Paciente", "Paciente")
-                        .WithMany("Anotacoes")
-                        .HasForeignKey("PacienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("NutriV2.Domain.AvaliacaoFisica", b =>
                 {
                     b.HasOne("NutriV2.Domain.Paciente", "Paciente")
@@ -371,7 +339,9 @@ namespace NutriV2.Migrations
                 {
                     b.HasOne("NutriV2.Domain.AvaliacaoFisica", "Avaliacao")
                         .WithMany()
-                        .HasForeignKey("AvaliacaoId");
+                        .HasForeignKey("AvaliacaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("NutriV2.Domain.Paciente", "Paciente")
                         .WithMany("Consultas")

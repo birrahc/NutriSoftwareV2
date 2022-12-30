@@ -2,6 +2,9 @@
 
 @{
     NutriV2.Domain.Paciente pacienteDetalhado = ViewBag.Paciente;
+    
+    string textoPaciente = Model.ToList().Count > 1 ? "Pacientes" : "Paciente";
+
 }
 
 
@@ -12,10 +15,12 @@
                 Pesquisar
                 <div class="input-group is-invalid">
                     <div class="custom-file">
-                        <input type="tel" class="form-control" />
+                        <input type="text" name="pesquisaPaciente" id="txtPesquisa" class="form-control" />
                     </div>
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button">Button</button>
+                        <button class="btn btn-outline-secondary" type="button" onclick="pesquisaPaciente()">
+                            <i class="fa fa-search" title="Pesquisar Paciente"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -32,8 +37,10 @@
                         </tbody>
                     </table>
                 </div>
-
-                <button onclick="AbrirModalParaCadastro()" class="float-right mr-2 btn btn-outline-secondary mt-3">Cadastrar Novo Paciente</button>
+                <p class="float-left m-3"><b>@Model.ToList().Count  @textoPaciente</b></p>
+                <button onclick="AbrirModalParaCadastro()" class="float-right mr-2 btn btn-outline-secondary mt-3">
+                    <i class="fa fa-plus" title="Cadastrar Novo Paciente"></i>
+                </button>
 
             </div>
         </div>
@@ -47,23 +54,43 @@
                     <div class="m-auto p-3 bg-white" style="width: 95%; border: solid 1px #d8d8d8; border-radius: 5px; height: 410px;" id="dadosPessoais">
                         <partial name="AcoesPaciente/_DetalhesPaciente" for="@pacienteDetalhado" />
                     </div>
-                    <button class="btn btn-light ml-2 mt-3">Consultas</button>
-                    <a href="@Url.Action("AvaliacoesDoPaciente","Paciente",new {Id=pacienteDetalhado.Id})"  class="btn btn-light ml-2 mt-3">Avaliações</a>
-                    <button class="btn btn-light ml-2 mt-3">Dietas</button>
-                    <a href="#" class="btn btn-light ml-2 mt-3">Pagamentos</a>
-                    <button type="button" value="@pacienteDetalhado.Id" onclick="AbrirFormulariEdicao(this.value)" class="btn btn-light ml-2 mt-3">Editar</button>
-                    <button type="button" value="@pacienteDetalhado.Id" onclick="ExcluirPaciente(this.value)" class="btn btn-light ml-2 mt-3">Excluir</button>
+
+                    <button class="btn btn-light ml-2 mt-3" style="border-radius:25px;">
+                        <i class="fa fa-stethoscope" aria-hidden="true" title="Consultas"></i>
+                    </button>
+
+                    <a href="@Url.Action("AvaliacoesDoPaciente","Paciente",new {Id=pacienteDetalhado.Id})" class="btn btn-light ml-2 mt-3" style="border-radius:25px;">
+                        <i class="fa fa-table" title="Avaliações"></i>
+                    </a>
+
+                    <button class="btn btn-light ml-2 mt-3" style="border-radius:25px;">
+                        <i class="fa fa-wpforms" aria-hidden="true" title="Dietas"></i>
+                    </button>
+
+                    <a href="#" class="btn btn-light ml-2 mt-3" style="border-radius:25px;">
+                        <i class="fa fa-money" title="Pagamentos"></i>
+                    </a>
+
+                    <button type="button" value="@pacienteDetalhado.Id" onclick="AbrirFormulariEdicao(this.value)" class="btn btn-light ml-2 mt-3" style="border-radius:25px;">
+                        <i class="fa fa-pencil-square" title="Editar"></i>
+                    </button>
+
+                    <button type="button" value="@pacienteDetalhado.Id" onclick="ExcluirPaciente(this.value)" class="btn btn-light ml-2 mt-3" style="border-radius:25px;">
+                        <i class="fa fa-trash" title="Excluir"></i>
+                    </button>
                 </div>
             </div>
 
-        </div>
-        <div class="col-sm-12 col-md-4 col-lg-4 mt-4">
+        </div><div class="col-sm-12 col-md-4 col-lg-4 mt-4">
             <div class="row p-1">
                 <div class="col-12 pb-2" style="border-radius: 25px; border: solid 2px #e4e2e2;">
                     <h3 class="text-center" style="color: #918f8f;">Anotações</h3>
-                    <div class="m-auto bg-white" style="width: 95%; border: solid 1px #d8d8d8; border-radius: 5px; height: 410px" id="observacoes">
-
+                    <div id="observacoes">
+                        <partial name="AcoesPaciente/_ObservacaoPaciente" for="@pacienteDetalhado.Anotacoes" />
                     </div>
+                    <button type="button" value="@pacienteDetalhado.Id" onclick="abrirModalObservacao(this.value)" class="btn btn btn-outline-secondary float-right mt-3 mr-2">
+                        <i class="fa fa-plus" title="Adicionar nova Observação"></i>
+                    </button>
                 </div>
             </div>
 

@@ -145,5 +145,53 @@ namespace NutriVV2.Web.Controllers
             
             return PartialView("AcoesAvaliacao/_ConteudoAvaliacao");
         }
+
+        [HttpPost]
+        public ActionResult PesquisaPaciente(string pesquisaPaciente) 
+        {
+            var pesquisa = SvcPaciente.PesquisarPaciente(pesquisaPaciente);
+            return PartialView("AcoesPaciente/_ListaDePacientes",pesquisa);
+        }
+
+        [HttpGet]
+        public ActionResult CadastrarAnotacoesPaciente(int pacienteId)
+        {
+            ViewBag.IdPaciente = pacienteId;
+            var anotacao = new NutriV2.Domain.AnotacoesPaciente {PacienteId = pacienteId, Data= DateTime.Now };
+            return PartialView("AcoesPaciente/_FormularioObservacaoPaciente",anotacao);
+        }
+
+        [HttpPost]
+        public ActionResult CadastrarAnotacoesPaciente(NutriV2.Domain.AnotacoesPaciente anotacao) 
+        {
+            SvcAnotacoes.CadastrarAnotacao(anotacao);
+            var anotacoes = SvcAnotacoes.ListarAnotacoesPaciente(anotacao.PacienteId);
+            return PartialView("AcoesPaciente/_ObservacaoPaciente", anotacoes.OrderByDescending(d=>d.Data));
+        }
+
+        [HttpGet]
+        public ActionResult EditarAnotacoesPaciente(int anotacaoId)
+        {
+            var anotacao = SvcAnotacoes.BuscarAnotacao(anotacaoId);
+            return PartialView("AcoesPaciente/_FormularioObservacaoPaciente", anotacao);
+        }
+
+        [HttpPost]
+        public ActionResult EditarAnotacoesPaciente(NutriV2.Domain.AnotacoesPaciente anotacao)
+        {
+            SvcAnotacoes.EditarAnotacao(anotacao);
+            var anotacoes = SvcAnotacoes.ListarAnotacoesPaciente(anotacao.PacienteId);
+            return PartialView("AcoesPaciente/_ObservacaoPaciente", anotacoes.OrderByDescending(d=>d.Data));
+        }
+        
+        [HttpPost]
+        public ActionResult DeletarAnotacao(int anotacaoId)
+        {
+            var anotacao = SvcAnotacoes.BuscarAnotacao(anotacaoId);
+            int pacienteId = anotacao.PacienteId;
+            SvcAnotacoes.DeletarAnotacao(anotacao);
+            var anotacoes = SvcAnotacoes.ListarAnotacoesPaciente(pacienteId);
+            return PartialView("AcoesPaciente/_ObservacaoPaciente", anotacoes);
+        }
     }
 }

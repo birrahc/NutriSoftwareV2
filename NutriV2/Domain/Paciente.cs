@@ -9,5 +9,6 @@ namespace NutriV2.Domain
         public ICollection<Consulta>  Consultas { get; set; }
         public ICollection<Agenda> HorariosAgendados { get; set; }
         public ICollection<Pagamento> Pagamentos { get; set; }
+        public ICollection<AnotacoesPaciente>Anotacoes { get; set; }
     }
 }

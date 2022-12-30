@@ -10,6 +10,7 @@ namespace Data.NutriDbContext
         public DbSet<Agenda> Agenda{get ; set;}
         public DbSet<Alimento> Alimentos{get ; set;}
         public DbSet<Anminese> Anminese{get ; set;}
+        public DbSet<AnotacoesPaciente> AnotacosPaciente{get ; set;}
         public DbSet<AvaliacaoFisica> AvaliacoesFisicas{get ; set;}
         public DbSet<Consulta> Consultas{get ; set;}
         public DbSet<Formacao> Formacoes{get ; set;}

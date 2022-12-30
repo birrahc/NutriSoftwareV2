@@ -1,0 +1,31 @@
+﻿@model IEnumerable<NutriV2.Domain.AnotacoesPaciente>
+@{
+    int nAnotacoes = Model != null ? Model.ToList().Count : 0;
+    string texto = nAnotacoes > 1 ? "Anotações" : "Anotação";
+}
+
+
+<div class="m-auto bg-white" style="width: 95%; border: solid 1px #d8d8d8; border-radius: 5px; height: 410px; padding: 5px 20px; overflow:auto;">
+    @if (Model != null)
+    {
+
+        @foreach (var obs in Model)
+        {
+            <div class="row mt-1 p-1">
+
+                <div class="col-9 p-2" style="background-color: #b8b8b8; font-size: 18px; color: #eae6e6;"><b>@obs.Titulo</b></div>
+                <div class="col-3 p-2" style="background-color: #b8b8b8; font-size: 18px; color: #eae6e6;"><b>@obs.Data.GetValueOrDefault().ToShortDateString()</b></div>
+                <div class="col-12 p-0">
+                    <textarea readonly class="form-control" rows="12" style="resize:none; padding-bottom:2px;">@obs.Anotacoes</textarea>
+                </div>
+                <div class="col-12 mt-2" style="border-bottom: 1px solid #e9e9e9;">
+                    <button value="@obs.Id" onclick="EditarAnotacaoPaciente(this.value)" class="btn btn-light" style="border-radius:25px;"><i title="Editar anotação" class="fa fa-pencil-square"></i></button>
+                    <button value="@obs.Id" onclick="deletarObservacaoPaciente(this.value)" class="btn btn-light" style="border-radius:25px;"><i title="Deletar anotação" class="fa fa-trash"></i></button>
+                </div>
+            </div>
+        }
+    }
+    </div>
+    <p class="float-left m-3"><b>@nAnotacoes @texto</b></p>
+
+
