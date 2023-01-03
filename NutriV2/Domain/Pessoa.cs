@@ -1,6 +1,7 @@
 
 using System;
 using NutriV2.Enums;
+using NutriV2.Svc;
 
 namespace NutriV2.Domain
 {
@@ -22,6 +23,7 @@ namespace NutriV2.Domain
         public string  Email { get; set; }
         public string  Telefone { get; set; }
         public EN_TipoDeContatoTelefone ? TipoDeContatoTelefone { get; set; }
-       
+        public string TipoTelefoneGetDescription { get => SvcEnum.GetDescription(this.TipoDeContatoTelefone); }
+
     }
 }

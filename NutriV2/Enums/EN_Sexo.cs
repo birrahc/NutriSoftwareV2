@@ -4,6 +4,5 @@ namespace NutriV2.Enums
     {
         Masculino = 1,
         Feminino = 2,
-        Indefinido=3
     }
 }

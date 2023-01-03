@@ -1,5 +1,6 @@
 ﻿using Data.NutriDbContext;
 using NutriV2.Domain;
+using NutriV2.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,10 +82,41 @@ namespace NutriV2.Svc
                 throw new Exception("Erro ao buscar avaliação", ex);
             }
         }
-        /*
-            avaliacao.Paciente = db.pacientes.Find(IdPaciente);
-            db.AvaliacoesFisicas.Add(avaliacao);
-            db.SaveChanges();
-         */
+
+        public static double ? CalculularDensidade(double ? SomatoriaDc, EN_Sexo ? pSexo, int ? pIdade)
+        {
+            if (SomatoriaDc.HasValue && pSexo.HasValue && pIdade.HasValue)
+            {
+                switch (pSexo) 
+                {
+                    case EN_Sexo.Masculino:
+                        return (1.11200000 -
+                               (0.00043499 * (SomatoriaDc.Value)) +
+                               (0.00000055 * (Math.Pow(SomatoriaDc.Value, 2))) -
+                               (0.0002882 * (pIdade.Value)));
+
+                    case EN_Sexo.Feminino:
+                        return( 1.097 -
+                              (0.00046971 * (SomatoriaDc.Value)) +
+                              (0.00000056 * (Math.Pow(SomatoriaDc.Value, 2))) -
+                              (0.00012828 * (pIdade.Value)));
+                }
+
+            }
+            return null;
+        }
+        public static double CalcularPercentualGordura(double pDensidade)
+        {
+            return ((4.95 / pDensidade) -4.5) *100;
+        }
+        public static double CalcularMassaMuscular(double pPercentualGordura, double pPeso)
+        {
+            return pPeso - ((pPercentualGordura / 100) * pPeso);
+        }
+        public static double CalcularGordura(double pPercentualGordura, double pPeso)
+        {
+            return (pPercentualGordura / 100)* pPeso;
+        }
+        
     }
 }

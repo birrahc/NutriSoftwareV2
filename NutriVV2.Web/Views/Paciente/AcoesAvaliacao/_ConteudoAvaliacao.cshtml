@@ -122,18 +122,20 @@
 </div>
 
 <div class="row mt-1">
-    <div class="w-140px pl-1 float-left bg-secondary text-light">DC. Triceps</div>
-    @foreach (var aval in Model)
-    {
-        <div class="float-left ml-1" style="width: 100px; border: solid 1px #808080"><p class="m-0 text-center">@aval.CircPeito</p></div>
-    }
-    <div style="clear:both;"></div>
-</div>
-<div class="row mt-1">
     <div class="w-100 bg-secondary text-center text-light">
         <b>Dobra Cutânea</b>
     </div>
 </div>
+
+<div class="row mt-1">
+    <div class="w-140px pl-1 float-left bg-secondary text-light">DC. Triceps</div>
+    @foreach (var aval in Model)
+    {
+        <div class="float-left ml-1" style="width: 100px; border: solid 1px #808080"><p class="m-0 text-center">@aval.DCTriceps</p></div>
+    }
+    <div style="clear:both;"></div>
+</div>
+
 <div class="row mt-1">
     <div class="w-140px pl-1 float-left bg-secondary text-light">DC. Escapula</div>
     @foreach (var aval in Model)
@@ -187,6 +189,33 @@
     }
     <div style="clear:both;"></div>
 </div>
+<div class="row mt-1">
+    <div class="w-140px pl-1 float-left bg-secondary text-light">%Gordura</div>
+    @foreach (var aval in Model)
+    {
+        <div class="float-left ml-1" style="width: 100px; border: solid 1px #808080"><p class="m-0 text-center">@aval.PercentualGordura.GetValueOrDefault().ToString("N1") %</p></div>
+    }
+    <div style="clear:both;"></div>
+</div>
+
+<div class="row mt-1">
+    <div class="w-140px pl-1 float-left bg-secondary text-light">M. Muscular</div>
+    @foreach (var aval in Model)
+    {
+        <div class="float-left ml-1" style="width: 100px; border: solid 1px #808080"><p class="m-0 text-center">@aval.MassaMuscular.GetValueOrDefault().ToString("N1") Kg</p></div>
+    }
+    <div style="clear:both;"></div>
+</div>
+
+<div class="row mt-1">
+    <div class="w-140px pl-1 float-left bg-secondary text-light">Gordura</div>
+    @foreach (var aval in Model)
+    {
+        <div class="float-left ml-1" style="width: 100px; border: solid 1px #808080"><p class="m-0 text-center">@aval.Gordura.GetValueOrDefault().ToString("N1") Kg</p></div>
+    }
+    <div style="clear:both;"></div>
+</div>
+
 
 <div class="row mt-1">
     <div class="w-140px pl-1 float-left"></div>
@@ -203,3 +232,5 @@
     }
     <div style="clear:both;"></div>
 </div>
+
+

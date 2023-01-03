@@ -107,7 +107,7 @@ function AbrirModalParaAvaliacao(value) {
         success: function (response) {
             $("#formularioAvaliacao").empty();
             $("#formularioAvaliacao").append(response);
-            //$('.form-control').mask("00,00", { reverse: true });
+            $('input[mask="formAval"]').mask("00,0", { reverse: false });
             $('#modalAvaliacao').modal('show')
 
         },
@@ -130,7 +130,7 @@ function AbrirModalParaEdicaoAvaliacao(id) {
             $("#formularioAvaliacao").append(response);
             $(".avalAnterior").hide();
             $('#modalAvaliacao').modal('show')
-
+            $('input[mask="formAval"]').mask("00,0", { reverse: false });
         },
         error: function (response) {-
             toastr.error("Houve um erro ao abrir formulário." + response, "Error");
