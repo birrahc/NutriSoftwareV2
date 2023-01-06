@@ -279,3 +279,40 @@ function deletarObservacaoPaciente(value)
 
 }
 
+function pesquisarAvaliacaoPaciente() {
+    
+    var dados = $("#frmPesquisaEntreAvaliacoes").serialize();
+    $.ajax({
+        url: '/Paciente/ListarEntreAvaliacoes',
+        type: 'GET',
+        data: dados,
+        async: true,
+        success: function (response) {
+            $("#conteudoAvaliacao").empty();
+            $("#conteudoAvaliacao").append(response);
+        },
+        error: function (response) {
+            toastr.error("Erro na operação", "Error");
+        }
+    });
+}
+
+function limparPesquisaAvaliacaoPaciente() {
+    
+    $('input[textbox-pesquisa="pesquisavaAvaliacao"]').val("");
+    var dados = $("#frmPesquisaEntreAvaliacoes").serialize();
+    $.ajax({
+        url: '/Paciente/ListarEntreAvaliacoes',
+        type: 'GET',
+        data: dados,
+        async: true,
+        success: function (response) {
+            $("#conteudoAvaliacao").empty();
+            $("#conteudoAvaliacao").append(response);
+        },
+        error: function (response) {
+            toastr.error("Erro na operação", "Error");
+        }
+    });
+}
+

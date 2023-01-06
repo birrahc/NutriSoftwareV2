@@ -1,5 +1,7 @@
 ﻿using Data.NutriDbContext;
+using Microsoft.EntityFrameworkCore;
 using NutriV2.Domain;
+using NutriV2.Dto;
 using NutriV2.Enums;
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,7 @@ namespace NutriV2.Svc
                 db.SaveChanges();
                 db.Dispose();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception("Erro ao cadastrar avaliação", ex);
             }
@@ -38,7 +40,7 @@ namespace NutriV2.Svc
                 throw new Exception("Erro ao cadastrar avaliação", ex);
             }
         }
-        public static void DeletarAvaliacao(int pIdAvaliacao) 
+        public static void DeletarAvaliacao(int pIdAvaliacao)
         {
             try
             {
@@ -53,22 +55,21 @@ namespace NutriV2.Svc
                 throw new Exception("Erro ao deletar avaliação", ex);
             }
         }
-        public static List<AvaliacaoFisica> ListarAvaliacoesPorPaciente(int pPacienteId) 
+        public static List<AvaliacaoFisica> ListarAvaliacoesPorPaciente(int pPacienteId)
         {
             try
             {
                 NutriDbContext db = new NutriDbContext();
-                var avaliacoes = db.AvaliacoesFisicas.Where(p => p.PacienteId == pPacienteId).ToList();
+                var avaliacoes = db.AvaliacoesFisicas.Include(p=>p.Paciente).Where(p => p.PacienteId == pPacienteId).ToList();
                 db.Dispose();
                 return avaliacoes;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception("Erro ao listar avalições", ex);
             }
         }
-
-        public static AvaliacaoFisica BuscarAvalicao(int pIdAvaliacao) 
+        public static AvaliacaoFisica BuscarAvalicao(int pIdAvaliacao)
         {
             try
             {
@@ -77,17 +78,36 @@ namespace NutriV2.Svc
                 db.Dispose();
                 return avaliacao;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception("Erro ao buscar avaliação", ex);
             }
         }
 
-        public static double ? CalculularDensidade(double ? SomatoriaDc, EN_Sexo ? pSexo, int ? pIdade)
+        public static List<AvaliacaoFisica> ListarEntreAvaliacoesPaciente(ParametrosPesquisaEntreAvaliacoes pPesquisa)
+        {
+            try
+            {
+                NutriDbContext db = new NutriDbContext();
+                var avaliacoes = db.AvaliacoesFisicas.Include(p => p.Paciente)
+                    .Where(p => p.PacienteId == pPesquisa.PacienteId &&
+                           p.NumAvaliacao >= pPesquisa.PrimeiroParamPesquisa &&
+                           p.NumAvaliacao <= pPesquisa.SegundoParamPesquisa)
+                    .ToList();
+                db.Dispose();
+                return avaliacoes;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao listar avalições", ex);
+            }
+
+        }
+        public static double? CalculularDensidade(double? SomatoriaDc, EN_Sexo? pSexo, int? pIdade)
         {
             if (SomatoriaDc.HasValue && pSexo.HasValue && pIdade.HasValue)
             {
-                switch (pSexo) 
+                switch (pSexo)
                 {
                     case EN_Sexo.Masculino:
                         return (1.11200000 -
@@ -96,7 +116,7 @@ namespace NutriV2.Svc
                                (0.0002882 * (pIdade.Value)));
 
                     case EN_Sexo.Feminino:
-                        return( 1.097 -
+                        return (1.097 -
                               (0.00046971 * (SomatoriaDc.Value)) +
                               (0.00000056 * (Math.Pow(SomatoriaDc.Value, 2))) -
                               (0.00012828 * (pIdade.Value)));
@@ -107,7 +127,7 @@ namespace NutriV2.Svc
         }
         public static double CalcularPercentualGordura(double pDensidade)
         {
-            return ((4.95 / pDensidade) -4.5) *100;
+            return ((4.95 / pDensidade) - 4.5) * 100;
         }
         public static double CalcularMassaMuscular(double pPercentualGordura, double pPeso)
         {
@@ -115,8 +135,8 @@ namespace NutriV2.Svc
         }
         public static double CalcularGordura(double pPercentualGordura, double pPeso)
         {
-            return (pPercentualGordura / 100)* pPeso;
+            return (pPercentualGordura / 100) * pPeso;
         }
-        
+
     }
 }

@@ -18,7 +18,7 @@
                         <input type="text" name="pesquisaPaciente" id="txtPesquisa" class="form-control" />
                     </div>
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" onclick="pesquisaPaciente()">
+                        <button class="btn btn-secondary" type="button" onclick="pesquisaPaciente()">
                             <i class="fa fa-search" title="Pesquisar Paciente"></i>
                         </button>
                     </div>
@@ -28,7 +28,7 @@
     </div>
     <div class="col-sm-12 col-md-4 col-lg-4 mt-4">
         <div class="row p-1">
-            <div class="col-12 pb-2" style="border-radius: 25px; border: solid 2px #e4e2e2;">
+            <div class="col-12 pb-2" style="border-radius: 25px; border: solid 2px #e4e2e2; background-color: #d8f0d6;">
                 <h3 class="text-center" style="color: #918f8f;">Pacientes</h3>
                 <div class="m-auto p-2 bg-white" style="width: 95%; border: solid 1px #d8d8d8; border-radius: 5px; height: 410px; overflow:auto;">
                     <table class="table table-striped">
@@ -38,7 +38,7 @@
                     </table>
                 </div>
                 <p class="float-left m-3"><b>@Model.ToList().Count  @textoPaciente</b></p>
-                <button onclick="AbrirModalParaCadastro()" class="float-right mr-2 btn btn-outline-secondary mt-3">
+                <button onclick="AbrirModalParaCadastro()" class="float-right mr-2 btn btn-secondary mt-3">
                     <i class="fa fa-plus" title="Cadastrar Novo Paciente"></i>
                 </button>
 
@@ -49,7 +49,7 @@
     {
         <div class="col-sm-12 col-md-4 col-lg-4 mt-4">
             <div class="row p-1">
-                <div class="col-12 pb-2" style="border-radius: 25px; border: solid 2px #e4e2e2;">
+                <div class="col-12 pb-2" style="border-radius: 25px; border: solid 2px #e4e2e2; background-color: #d8f0d6;">
                     <h3 class="text-center" style="color: #918f8f;">Dados Pessoais</h3>
                     <div class="m-auto p-3 bg-white" style="width: 95%; border: solid 1px #d8d8d8; border-radius: 5px; height: 410px;" id="dadosPessoais">
                         <partial name="AcoesPaciente/_DetalhesPaciente" for="@pacienteDetalhado" />
@@ -83,12 +83,12 @@
 
         </div><div class="col-sm-12 col-md-4 col-lg-4 mt-4">
             <div class="row p-1">
-                <div class="col-12 pb-2" style="border-radius: 25px; border: solid 2px #e4e2e2;">
+                <div class="col-12 pb-2" style="border-radius: 25px; border: solid 2px #e4e2e2; background-color: #d8f0d6;">
                     <h3 class="text-center" style="color: #918f8f;">Anotações</h3>
                     <div id="observacoes">
                         <partial name="AcoesPaciente/_ObservacaoPaciente" for="@pacienteDetalhado.Anotacoes" />
                     </div>
-                    <button type="button" value="@pacienteDetalhado.Id" onclick="abrirModalObservacao(this.value)" class="btn btn btn-outline-secondary float-right mt-3 mr-2">
+                    <button type="button" value="@pacienteDetalhado.Id" onclick="abrirModalObservacao(this.value)" class="btn btn-secondary float-right mt-3 mr-2">
                         <i class="fa fa-plus" title="Adicionar nova Observação"></i>
                     </button>
                 </div>

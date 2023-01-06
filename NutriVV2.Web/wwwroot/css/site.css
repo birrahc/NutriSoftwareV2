@@ -76,4 +76,11 @@ body {
 .h32px {
     height:32px !important;
 }
+.btn-pers {
+    height: 35px !important;
+    padding: 0% 10px !important;
+}
+.mt-05 {
+    margin-top: 0.1rem !important;
+}
 

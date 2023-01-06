@@ -166,7 +166,7 @@ namespace NutriVV2.Web.Controllers
         {
             SvcAnotacoes.CadastrarAnotacao(anotacao);
             var anotacoes = SvcAnotacoes.ListarAnotacoesPaciente(anotacao.PacienteId);
-            return PartialView("AcoesPaciente/_ObservacaoPaciente", anotacoes.OrderByDescending(d=>d.Data));
+            return PartialView("AcoesPaciente/_ObservacaoPaciente", anotacoes.OrderByDescending(d=>d.Id));
         }
 
         [HttpGet]
@@ -181,7 +181,7 @@ namespace NutriVV2.Web.Controllers
         {
             SvcAnotacoes.EditarAnotacao(anotacao);
             var anotacoes = SvcAnotacoes.ListarAnotacoesPaciente(anotacao.PacienteId);
-            return PartialView("AcoesPaciente/_ObservacaoPaciente", anotacoes.OrderByDescending(d=>d.Data));
+            return PartialView("AcoesPaciente/_ObservacaoPaciente", anotacoes.OrderByDescending(d=>d.Id));
         }
         
         [HttpPost]
@@ -191,7 +191,16 @@ namespace NutriVV2.Web.Controllers
             int pacienteId = anotacao.PacienteId;
             SvcAnotacoes.DeletarAnotacao(anotacao);
             var anotacoes = SvcAnotacoes.ListarAnotacoesPaciente(pacienteId);
-            return PartialView("AcoesPaciente/_ObservacaoPaciente", anotacoes);
+            return PartialView("AcoesPaciente/_ObservacaoPaciente", anotacoes.OrderByDescending(p=>p.Id));
+        }
+
+        [HttpGet]
+        public ActionResult ListarEntreAvaliacoes(NutriV2.Dto.ParametrosPesquisaEntreAvaliacoes pPesquisa) 
+        {
+            if (!pPesquisa.PrimeiroParamPesquisa.HasValue && !pPesquisa.SegundoParamPesquisa.HasValue)
+                return PartialView("AcoesAvaliacao/_ConteudoAvaliacao", SvcAvaliacao.ListarAvaliacoesPorPaciente(pPesquisa.PacienteId));
+            var entreAvaliacoes = SvcAvaliacao.ListarEntreAvaliacoesPaciente(pPesquisa);
+            return PartialView("AcoesAvaliacao/_ConteudoAvaliacao", entreAvaliacoes);
         }
     }
 }

@@ -4,40 +4,70 @@
     NutriV2.Domain.AvaliacaoFisica AvaliacaoDetalhado = ViewBag.Avaliacao;
 }
 <div class="container-fluid" id="Conteudo">
-    @*<partial name="AcoesPaciente/_Conteudo" for="@Model" />*@
-    <div class="row">
 
-        <div class="col-12 mt-4">
-            <div class="row">
-                <div class="col-2">
-                    Data inicio
-                    <input type="date" class="form-control"/>
+    <div class="row">
+        <div class="col-6" padding:4px 20px;">
+            <form method="post" class="p-0 m-0" id="frmPesquisaEntreAvaliacoes">
+                <div class="row">
+                    <input type="hidden" name="PacienteId" value="@Model.Id" />
+                    <div class="col-4 p-1">
+
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text" style="background-color: #d8f0d6;">De</div>
+                            </div>
+                            <input type="number" name="PrimeiroParamPesquisa" textbox-pesquisa ="pesquisavaAvaliacao" class="form-control" />
+                            <div class="input-group-prepend">
+                                <div class="input-group-text" style="background-color: #d8f0d6;">° Avaliação</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 p-1">
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text" style="background-color: #d8f0d6;">Até</div>
+                            </div>
+                            <input type="number" name="SegundoParamPesquisa" textbox-pesquisa ="pesquisavaAvaliacao" class="form-control" />
+                            <div class="input-group-prepend">
+                                <div class="input-group-text" style="background-color: #d8f0d6;">° Avaliação</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-1 p-1">
+                        <button type="button" onclick="pesquisarAvaliacaoPaciente()" class="btn btn-secondary w-100">
+                            <i class="fa fa-search" title="Pesquisar"></i>
+                        </button>
+                    </div>
+                    <div class="col-1 p-1">
+                        <button type="button" onclick="limparPesquisaAvaliacaoPaciente()" class="btn btn-secondary w-100">
+                            <i class="fa fa-history" title="Limpar"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="col-2">
-                    Data Fim
-                    <input type="date" class="form-control" />
-                </div>
-            </div>
+
+            </form>
         </div>
-        <div class="col-12 mt-4">
+    </div>
+    <div class="row">
+        <div class="col-12 mt-1">
             <div class="row p-1">
-                <div class="col-12 pb-2" style="border-radius: 25px; border: solid 2px #e4e2e2;">
+                <div class="col-12 pb-2" style="border-radius: 25px; border: solid 2px #e4e2e2; background-color: #d8f0d6;">
                     <h3 class="text-center" style="color: #918f8f;">Avaliacoes</h3>
                     <div class="m-auto p-2 bg-white" style="width: 95%; border: solid 1px #d8d8d8; border-radius: 5px; overflow:auto;">
                         <div class="container-fluid">
-                            <div class="row mt-1" >
+                            <div class="row mt-1">
                                 <div class="col-12 p-2 bg-secondary">
                                     <p class="m-0 text-light text-center" style="font-size:20px;"> Paciente: <b>@Model.Nome</b> Idade: <b>@Model.Idade anos</b></p>
                                 </div>
                             </div>
                             <div id="conteudoAvaliacao">
-                                <partial name="AcoesAvaliacao/_ConteudoAvaliacao" for="@Model.Avaliacoes"/>
+                                <partial name="AcoesAvaliacao/_ConteudoAvaliacao" for="@Model.Avaliacoes" />
                             </div>
                         </div>
 
                     </div>
 
-                    <button value="@Model.Id" onclick="AbrirModalParaAvaliacao(this.value)" class="float-right mr-5 btn btn-success mt-3">
+                    <button value="@Model.Id" onclick="AbrirModalParaAvaliacao(this.value)" class="float-right mr-5 btn btn-secondary mt-3">
                         <i class="fa fa-plus" title="Cadastrar nova avaliação"></i>
                     </button>
 
@@ -59,6 +89,6 @@
         Html.RenderPartial("_PacienteJS");
     }
     <script>
-       
+
     </script>
 }
