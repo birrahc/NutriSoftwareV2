@@ -16,7 +16,7 @@
                 <div class="col-9 p-2" style="background-color: #b8b8b8; font-size: 18px; color: #eae6e6;"><b>@obs.Titulo</b></div>
                 <div class="col-3 p-2" style="background-color: #b8b8b8; font-size: 18px; color: #eae6e6;"><b style="margin-left:-15px">@obs.Data.GetValueOrDefault().ToShortDateString()</b></div>
                 <div class="col-12 p-0">
-                    <textarea readonly class="form-control" rows="12" style="resize:none; padding-bottom:2px;">@obs.Anotacoes</textarea>
+                    <textarea readonly class="form-control bg-light" rows="12" style="resize:none; padding-bottom:2px;">@obs.Anotacoes</textarea>
                 </div>
                 <div class="col-12 mt-2" style="border-bottom: 1px solid #e9e9e9;">
                     <button value="@obs.Id" onclick="EditarAnotacaoPaciente(this.value)" class="btn btn-light" style="border-radius:25px;"><i title="Editar anotação" class="fa fa-pencil-square"></i></button>
@@ -26,6 +26,6 @@
         }
     }
     </div>
-    <p class="float-left m-3"><b>@nAnotacoes @texto</b></p>
+    <p class="float-left m-3 text-secondary"><b>@nAnotacoes @texto</b></p>
 
 

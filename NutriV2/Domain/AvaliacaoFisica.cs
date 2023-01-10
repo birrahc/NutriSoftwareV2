@@ -10,24 +10,24 @@ namespace NutriV2.Domain
         public int PacienteId { get; set; }
         public int NumAvaliacao { get; set; }
         public DateTime DataAvaliacao { get; set; }
-        public decimal? Peso { get; set; }
-        public decimal? CircCintura { get; set; }
-        public decimal? CircAbdominal { get; set; }
-        public decimal? CircQuadril { get; set; }
-        public decimal? CircPeito { get; set; }
-        public decimal? CircBracoDireito { get; set; }
-        public decimal? CircBracoEsquerdo { get; set; }
-        public decimal? CircCoxadireita { get; set; }
-        public decimal? CircCoxaEsquerda { get; set; }
-        public decimal? CircPanturrilhaDireita { get; set; }
-        public decimal? CircPanturrilhaEsquerda { get; set; }
-        public decimal? DCTriceps { get; set; }
-        public decimal? DCEscapular { get; set; }
-        public decimal? DCSupraIliaca { get; set; }
-        public decimal? DCAbdominal { get; set; }
-        public decimal? DCAxilar { get; set; }
-        public decimal? DCPeitoral { get; set; }
-        public decimal? DCCoxa { get; set; }
+        public double? Peso { get; set; }
+        public double? CircCintura { get; set; }
+        public double? CircAbdominal { get; set; }
+        public double? CircQuadril { get; set; }
+        public double? CircPeito { get; set; }
+        public double? CircBracoDireito { get; set; }
+        public double? CircBracoEsquerdo { get; set; }
+        public double? CircCoxadireita { get; set; }
+        public double? CircCoxaEsquerda { get; set; }
+        public double? CircPanturrilhaDireita { get; set; }
+        public double? CircPanturrilhaEsquerda { get; set; }
+        public double? DCTriceps { get; set; }
+        public double? DCEscapular { get; set; }
+        public double? DCSupraIliaca { get; set; }
+        public double? DCAbdominal { get; set; }
+        public double? DCAxilar { get; set; }
+        public double? DCPeitoral { get; set; }
+        public double? DCCoxa { get; set; }
         public Paciente Paciente { get; set; }
 
         [NotMapped]
@@ -69,26 +69,26 @@ namespace NutriV2.Domain
         }
 
         [NotMapped]
-        public decimal ? PercentualGordura { 
+        public double ? PercentualGordura { 
             get {
                 if (this.Densidade.HasValue)
-                    return (decimal)SvcAvaliacao.CalcularPercentualGordura(this.Densidade.Value);
+                    return (double)SvcAvaliacao.CalcularPercentualGordura(this.Densidade.Value);
                 return null;
             } 
         }
         [NotMapped]
-        public decimal ? MassaMuscular {
+        public double ? MassaMuscular {
             get {
                 if(this.PercentualGordura.HasValue && this.Peso.HasValue)
-                    return (decimal)SvcAvaliacao.CalcularMassaMuscular((double)this.PercentualGordura, (double)this.Peso);
+                    return SvcAvaliacao.CalcularMassaMuscular(this.PercentualGordura.Value, this.Peso.Value);
                 return null;
             }
         }
         [NotMapped]
-        public decimal ? Gordura { 
+        public double ? Gordura { 
             get {
                 if(this.PercentualGordura.HasValue && this.Peso.HasValue)
-                    return (decimal)SvcAvaliacao.CalcularGordura((double)this.PercentualGordura.Value, (double)this.Peso.Value);
+                    return (double)SvcAvaliacao.CalcularGordura(this.PercentualGordura.Value, this.Peso.Value);
                 return null;
             }
         }

@@ -64,7 +64,6 @@
                                 <partial name="AcoesAvaliacao/_ConteudoAvaliacao" for="@Model.Avaliacoes" />
                             </div>
                         </div>
-
                     </div>
 
                     <button value="@Model.Id" onclick="AbrirModalParaAvaliacao(this.value)" class="float-right mr-5 btn btn-secondary mt-3">
@@ -78,7 +77,7 @@
 </div>
 
 <div class="modal fade" id="modalAvaliacao" tabindex="-1" aria-labelledby="modalAvaliacao" aria-modal="true" role="dialog">
-    <div class="modal-dialog" id="formularioAvaliacao">
+    <div class="modal-dialog modal-sm" id="formularioAvaliacao">
     </div>
 </div>
 
@@ -88,7 +87,5 @@
     @{
         Html.RenderPartial("_PacienteJS");
     }
-    <script>
-
-    </script>
+   
 }

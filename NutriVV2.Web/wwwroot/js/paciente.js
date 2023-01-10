@@ -139,6 +139,7 @@ function AbrirModalParaEdicaoAvaliacao(id) {
 }
 
 function CadastrarEditarAvaliacao() {
+    $('input[mask="formAval"]').val().replaceAll(",", ".");
     var dados = $("#formularioCadastrarEditarAvaliacao").serialize();
     var action = $("#avaliacaoId").val() < 1 ? "CadastraAvaliacaoPaciente" : "EditarAvaliacaoPaciente";
     var mensagem = action == "CadastraAvaliacaoPaciente" ? "Avaliação cadastrada com sucesso." : "Avaliação atualizada com sucesso"
@@ -316,3 +317,59 @@ function limparPesquisaAvaliacaoPaciente() {
     });
 }
 
+function excluirAvaliacaoPaciente(value,pacienteid) 
+{
+    alert(pacienteid);
+    if (value > 0) {
+        Swal.fire({
+            title: 'Deseja realmente deletar essa avaliação ?',
+            //text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim'
+
+        }).then((result) => {
+            if (result.value) {
+
+                $.ajax({
+                    url: '/Paciente/DeletarAvaliacao',
+                    type: 'POST',
+                    data: { avaliacaoId: value, pacienteId: pacienteid },
+                    async: true,
+                    success: function (response) {
+                        $("#conteudoAvaliacao").empty();
+                        $("#conteudoAvaliacao").append(response);
+                        toastr.success("Avalição excluida com sucesso.", "Sucesso");
+                    },
+                    error: function (response) {
+                        toastr.error("Erro na operação", "Error");
+                    }
+                });
+            }
+        });
+    }
+   
+}
+
+function abrirModalAvaliacaoConsulta(value) {
+     
+    $.ajax({
+        url: '/Paciente/AvaliacaoConsulta',
+        type: 'GET',
+        data: { Id: value },
+        async: true,
+        success: function (response) {
+            $("#formularioAvaliacaoConsulta").empty();
+            $("#formularioAvaliacaoConsulta").append(response);
+            //$('.form-control').mask("00,00", { reverse: true });
+            $('#modalAvalicaoConsulta').modal('show');
+
+        },
+        error: function (response) {
+            toastr.error("Houve um erro ao abrir formulário." + response, "Error");
+        }
+    });
+
+}

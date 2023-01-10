@@ -1,4 +1,5 @@
 ﻿using Data.NutriDbContext;
+using Microsoft.EntityFrameworkCore;
 using NutriV2.Domain;
 using System;
 using System.Collections.Generic;
@@ -71,7 +72,11 @@ namespace NutriV2.Svc
             try
             {
                 NutriDbContext db = new NutriDbContext();
-                var consultas = db.Consultas.Where(p=>p.PacienteId==pPacienteId).ToList();
+                var consultas = db.Consultas.Include(n=>n.Nutricionista)
+                                            .Include(p=>p.Paciente)
+                                            .Include(pg=>pg.Pagamento)
+                                            .Include(a=>a.Avaliacao)
+                                            .Where(p=>p.PacienteId==pPacienteId).ToList();
                 db.Dispose();
                 return consultas;
             }

@@ -82,20 +82,20 @@ namespace NutriV2.Svc
             }
         }
 
-        public static List<Pagamento> ListarPagamentosPorConsulta(int pConsultaId)
-        {
-            try
-            {
-                NutriDbContext db = new NutriDbContext();
-                var pagamentos = db.Pagamentos.Where(p => p.ConsultaId == pConsultaId).ToList();
-                db.Dispose();
-                return pagamentos;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao listar pagamentos ", ex);
-            }
-        }
+        //public static List<Pagamento> ListarPagamentosPorConsulta(int pConsultaId)
+        //{
+        //    try
+        //    {
+        //        NutriDbContext db = new NutriDbContext();
+        //        var pagamentos = db.Pagamentos.Where(p => p.ConsultaId == pConsultaId).ToList();
+        //        db.Dispose();
+        //        return pagamentos;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Erro ao listar pagamentos ", ex);
+        //    }
+        //}
 
         public static Pagamento BuscarPagamento(int pPagamentoId)
         {

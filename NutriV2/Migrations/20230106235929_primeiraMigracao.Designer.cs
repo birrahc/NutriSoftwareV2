@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace NutriV2.Migrations
 {
     [DbContext(typeof(NutriDbContext))]
-    [Migration("20221229130853_SegundaMigracaoObservacaoPaciente")]
-    partial class SegundaMigracaoObservacaoPaciente
+    [Migration("20230106235929_primeiraMigracao")]
+    partial class primeiraMigracao
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -90,8 +90,14 @@ namespace NutriV2.Migrations
                     b.Property<string>("Anotacoes")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<DateTime?>("Data")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<int>("PacienteId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Titulo")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -106,56 +112,56 @@ namespace NutriV2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("CircAbdominal")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("CircAbdominal")
+                        .HasColumnType("double");
 
-                    b.Property<decimal?>("CircBracoDireito")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("CircBracoDireito")
+                        .HasColumnType("double");
 
-                    b.Property<decimal?>("CircBracoEsquerdo")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("CircBracoEsquerdo")
+                        .HasColumnType("double");
 
-                    b.Property<decimal?>("CircCintura")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("CircCintura")
+                        .HasColumnType("double");
 
-                    b.Property<decimal?>("CircCoxaEsquerda")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("CircCoxaEsquerda")
+                        .HasColumnType("double");
 
-                    b.Property<decimal?>("CircCoxadireita")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("CircCoxadireita")
+                        .HasColumnType("double");
 
-                    b.Property<decimal?>("CircPanturrilhaDireita")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("CircPanturrilhaDireita")
+                        .HasColumnType("double");
 
-                    b.Property<decimal?>("CircPanturrilhaEsquerda")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("CircPanturrilhaEsquerda")
+                        .HasColumnType("double");
 
-                    b.Property<decimal?>("CircPeito")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("CircPeito")
+                        .HasColumnType("double");
 
-                    b.Property<decimal?>("CircQuadril")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("CircQuadril")
+                        .HasColumnType("double");
 
-                    b.Property<decimal?>("DCAbdominal")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("DCAbdominal")
+                        .HasColumnType("double");
 
-                    b.Property<decimal?>("DCAxilar")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("DCAxilar")
+                        .HasColumnType("double");
 
-                    b.Property<decimal?>("DCCoxa")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("DCCoxa")
+                        .HasColumnType("double");
 
-                    b.Property<decimal?>("DCEscapular")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("DCEscapular")
+                        .HasColumnType("double");
 
-                    b.Property<decimal?>("DCPeitoral")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("DCPeitoral")
+                        .HasColumnType("double");
 
-                    b.Property<decimal?>("DCSupraIliaca")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("DCSupraIliaca")
+                        .HasColumnType("double");
 
-                    b.Property<decimal?>("DCTriceps")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("DCTriceps")
+                        .HasColumnType("double");
 
                     b.Property<DateTime>("DataAvaliacao")
                         .HasColumnType("datetime(6)");
@@ -166,8 +172,8 @@ namespace NutriV2.Migrations
                     b.Property<int>("PacienteId")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("Peso")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double?>("Peso")
+                        .HasColumnType("double");
 
                     b.HasKey("Id");
 
@@ -185,14 +191,30 @@ namespace NutriV2.Migrations
                     b.Property<int?>("AvaliacaoId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("DataConsulta")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("NutricionistaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Observacoes")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<int>("PacienteId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PagamentoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AvaliacaoId");
 
+                    b.HasIndex("NutricionistaId");
+
                     b.HasIndex("PacienteId");
+
+                    b.HasIndex("PagamentoId");
 
                     b.ToTable("Consulta");
                 });
@@ -369,11 +391,21 @@ namespace NutriV2.Migrations
                         .WithMany()
                         .HasForeignKey("AvaliacaoId");
 
+                    b.HasOne("NutriV2.Domain.Nutricionista", "Nutricionista")
+                        .WithMany("Consultas")
+                        .HasForeignKey("NutricionistaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("NutriV2.Domain.Paciente", "Paciente")
                         .WithMany("Consultas")
                         .HasForeignKey("PacienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("NutriV2.Domain.Pagamento", "Pagamento")
+                        .WithMany("Consulta")
+                        .HasForeignKey("PagamentoId");
                 });
 
             modelBuilder.Entity("NutriV2.Domain.Formacao", b =>

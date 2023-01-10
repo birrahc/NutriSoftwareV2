@@ -202,5 +202,26 @@ namespace NutriVV2.Web.Controllers
             var entreAvaliacoes = SvcAvaliacao.ListarEntreAvaliacoesPaciente(pPesquisa);
             return PartialView("AcoesAvaliacao/_ConteudoAvaliacao", entreAvaliacoes);
         }
+
+        [HttpPost]
+        public ActionResult DeletarAvaliacao(int avaliacaoId, int pacienteId) 
+        {
+            SvcAvaliacao.DeletarAvaliacao(avaliacaoId);
+            return PartialView("AcoesAvaliacao/_ConteudoAvaliacao", SvcAvaliacao.ListarAvaliacoesPorPaciente(pacienteId));
+        }
+
+        [HttpGet]
+        public ActionResult ConsultasDoPaciente(int Id)
+        {
+            List<NutriV2.Domain.Consulta> consulta = SvcConsulta.ListarConsultasPorPaciente(Id);
+            return View("ConsultasPaciente", consulta);
+        }
+
+        [HttpGet]
+        public ActionResult AvaliacaoConsulta(int Id) 
+        {
+            var avaliacao = SvcAvaliacao.BuscarAvalicao(Id);
+            return PartialView("AcoesConsulta/_AvaliacaoConsulta",avaliacao);
+        }
     }
 }

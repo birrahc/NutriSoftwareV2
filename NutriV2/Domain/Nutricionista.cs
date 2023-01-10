@@ -6,5 +6,6 @@ namespace NutriV2.Domain
     {
         public string CRN{ get; set; }
         public ICollection<Formacao> Formacoes { get; set; }
-    }
+        public ICollection<Consulta> Consultas { get; set; }
+    }   
 }

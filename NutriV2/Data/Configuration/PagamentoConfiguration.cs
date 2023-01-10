@@ -12,6 +12,7 @@ namespace NutriV2.Data.Configuration
             builder.ToTable("Pagamentos");
             builder.HasKey(p=>p.Id);
            
+            
         }
     }
 }

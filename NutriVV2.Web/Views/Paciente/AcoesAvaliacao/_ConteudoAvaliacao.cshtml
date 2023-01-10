@@ -227,8 +227,8 @@
                 <button id="@aval.Id" onclick="AbrirModalParaEdicaoAvaliacao(this.id)" class=" btn p-0 ml-3">
                     <i class="fa fa-pencil-square text-primary" title="Editar avaliação" style="font-size:22px;"></i>
                 </button>
-                <button class=" btn p-0 ml-4">
-                    <i class="fa fa-trash text-danger" title="Remover avaliação" style="font-size:22px;"></i>
+                <button value="@aval.Id" onclick="excluirAvaliacaoPaciente(this.value,@aval.PacienteId)" class=" btn p-0 ml-4" >
+                    <i class="fa fa-trash text-danger"  title="Remover avaliação" style="font-size:22px;"></i>
                 </button>
             </div>
         }

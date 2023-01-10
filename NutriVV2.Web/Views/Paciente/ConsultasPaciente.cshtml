@@ -1,0 +1,73 @@
+﻿@model ICollection<NutriV2.Domain.Consulta>
+
+<div class="row">
+    <div class="col-12 mt-1">
+        <div class="row p-1">
+            <div class="col-12 pb-2" style="border-radius: 25px; border: solid 2px #e4e2e2; background-color: #d8f0d6;">
+                <h3 class="text-center" style="color: #918f8f;">Consultas</h3>
+                <div class="m-auto p-2 bg-white" style="width: 95%; border: solid 1px #d8d8d8; border-radius: 5px; overflow:auto;">
+                    <div class="container-fluid">
+                        <div class="row mt-1">
+                            <div class="col-12 p-2 bg-secondary">
+                                <p class="m-0 text-light text-center" style="font-size:20px;"> Paciente: <b>@Model.FirstOrDefault().Paciente.Nome</b></p>
+                            </div>
+                        </div>
+                        <div id="conteudoConsultas">
+                            @if (Model.ToList().Any())
+                            {
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Data</th>
+                                            <th>Nutricionista</th>
+                                            <th>Avaliação</th>
+                                            <th>Anotações</th>
+                                            <th>Pagamento</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var consulta in Model)
+                                        {
+                                            <tr>
+                                                <td>@consulta.DataConsulta.ToShortDateString()</td>
+                                                <td>@consulta.Nutricionista.Nome</td>
+                                                <td>
+                                                    @consulta.Avaliacao.NumAvaliacao ° Avaliação
+                                                    <button type="button" value="@consulta.Avaliacao.Id" onclick="abrirModalAvaliacaoConsulta(this.value)" class="btn">
+                                                        <i class="fa fa-table" title="Avaliação referente a essa consulta"></i>
+                                                    </button>
+                                                </td>
+                                                <td><a href="#" class="btn"><i class="fa fa-calendar-o" title="Anotação referente a essa consulta"></i></a></td>
+                                                <td><a href="#" class="btn"><i class="fa fa-money" title="pagamento referente a essa consulta"></i></a></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <button value="" onclick="AbrirModalParaAvaliacao(this.value)" class="float-right mr-5 btn btn-secondary mt-3">
+                    <i class="fa fa-plus" title="Cadastrar nova avaliação"></i>
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalAvalicaoConsulta" tabindex="-1" aria-labelledby="modalAvalicaoConsulta" aria-modal="true" role="dialog">
+    <div class="modal-dialog" id="formularioAvaliacaoConsulta">
+        
+    </div>
+</div>
+
+@section Scripts{
+
+    @{
+        Html.RenderPartial("_PacienteJS");
+    }
+
+}
+

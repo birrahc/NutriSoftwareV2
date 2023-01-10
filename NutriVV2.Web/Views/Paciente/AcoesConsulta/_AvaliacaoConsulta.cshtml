@@ -1,0 +1,168 @@
+﻿
+@model NutriV2.Domain.AvaliacaoFisica
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Cadastro de avaliação</h5>
+            <button type="submit" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">x</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">Avaliacao</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" value="@Model.NumAvaliacao" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">Data</div>
+                    <div class="float-left" style="width:100px;">
+                        <input placeholder="@Model.DataAvaliacao.ToString("dd/MM/yyyy")" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">Peso</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.Peso" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="bg-secondary" style="width:280px;">
+                        <p class="text-center m-1 text-light"><b>Circunferências</b></p>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">Circ. Cintura</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.CircCintura" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">Circ. Abdominal</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.CircAbdominal" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">Circ. Quadril</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.CircQuadril" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">Circ. Peito</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.CircPeito" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">Circ. Braço D</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.CircBracoDireito" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">Circ. Braço E</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.CircBracoEsquerdo" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">Circ. Coxa D</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.CircCoxadireita" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">Circ. Coxa E</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.CircCoxaEsquerda" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">Circ. Pant. D</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.CircPanturrilhaDireita" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">Circ. Pant. E</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.CircPanturrilhaEsquerda" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="bg-secondary" style="width:280px;">
+                        <p class="text-center m-1 text-light"><b>Dobra cutânia</b></p>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">DC. Triceps</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.DCTriceps" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">DC. Escapular</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.DCEscapular" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">DC. Supra Iliaca</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.DCSupraIliaca" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">DC. Abdominal</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.DCAbdominal" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light">DC. Axilar</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.DCAxilar" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light h32px">DC. Peitoral</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.DCPeitoral" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="row mt-1">
+                    <div class="w-140px p-1 pl-1 float-left bg-secondary text-light h32px">DC. Coxa</div>
+                    <div class="float-left" style="width:100px;">
+                        <input type="text" placeholder="@Model.DCCoxa" readonly class="form-control h32px w-140px text-center" />
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+    </div>

@@ -92,7 +92,7 @@ namespace NutriV2.Svc
                 Paciente paciente = db.pacientes.Include(a => a.Avaliacoes)
                                                 .Include(p=>p.Pagamentos)
                                                 .Include(p=>p.HorariosAgendados)
-                                                .Include(p=>p.Consultas)
+                                                .Include(p=>p.Consultas).ThenInclude(n=>n.Nutricionista)
                                                 .Include(p=>p.Anotacoes)
                                                 .FirstOrDefault(p => p.Id == pIdPaciente);
                 db.Dispose();

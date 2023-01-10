@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NutriV2.Migrations
 {
-    public partial class PrimeiraMigracao : Migration
+    public partial class primeiraMigracao : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,7 +29,7 @@ namespace NutriV2.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(nullable: true),
-                    Sexo = table.Column<int>(nullable: false),
+                    Sexo = table.Column<int>(nullable: true),
                     Nascimento = table.Column<DateTime>(nullable: false),
                     CPF = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
@@ -63,22 +63,6 @@ namespace NutriV2.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pagamentos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    ConsultaId = table.Column<int>(nullable: false),
-                    TipoDePagamento = table.Column<int>(nullable: false),
-                    Data = table.Column<DateTime>(nullable: false),
-                    DataVencimento = table.Column<DateTime>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pagamentos", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TipoMedidas",
                 columns: table => new
                 {
@@ -98,7 +82,7 @@ namespace NutriV2.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(nullable: true),
-                    NutricionistaId = table.Column<int>(nullable: true)
+                    NutricionistaId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -108,7 +92,7 @@ namespace NutriV2.Migrations
                         column: x => x.NutricionistaId,
                         principalTable: "Nutricionistas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -154,6 +138,28 @@ namespace NutriV2.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AnotacosPaciente",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    PacienteId = table.Column<int>(nullable: false),
+                    Data = table.Column<DateTime>(nullable: true),
+                    Titulo = table.Column<string>(nullable: true),
+                    Anotacoes = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AnotacosPaciente", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AnotacosPaciente_PACIENTES_PacienteId",
+                        column: x => x.PacienteId,
+                        principalTable: "PACIENTES",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AvaliacaoFisica",
                 columns: table => new
                 {
@@ -162,24 +168,24 @@ namespace NutriV2.Migrations
                     PacienteId = table.Column<int>(nullable: false),
                     NumAvaliacao = table.Column<int>(nullable: false),
                     DataAvaliacao = table.Column<DateTime>(nullable: false),
-                    Peso = table.Column<decimal>(nullable: true),
-                    CircCintura = table.Column<decimal>(nullable: true),
-                    CircAbdominal = table.Column<decimal>(nullable: true),
-                    CircQuadril = table.Column<decimal>(nullable: true),
-                    CircPeito = table.Column<decimal>(nullable: true),
-                    CircBracoDireito = table.Column<decimal>(nullable: true),
-                    CircBracoEsquerdo = table.Column<decimal>(nullable: true),
-                    CircCoxadireita = table.Column<decimal>(nullable: true),
-                    CircCoxaEsquerda = table.Column<decimal>(nullable: true),
-                    CircPanturrilhaDireita = table.Column<decimal>(nullable: true),
-                    CircPanturrilhaEsquerda = table.Column<decimal>(nullable: true),
-                    DCTriceps = table.Column<decimal>(nullable: true),
-                    DCEscapular = table.Column<decimal>(nullable: true),
-                    DCSupraIliaca = table.Column<decimal>(nullable: true),
-                    DCAbdominal = table.Column<decimal>(nullable: true),
-                    DCAxilar = table.Column<decimal>(nullable: true),
-                    DCPeitoral = table.Column<decimal>(nullable: true),
-                    DCCoxa = table.Column<decimal>(nullable: true)
+                    Peso = table.Column<double>(nullable: true),
+                    CircCintura = table.Column<double>(nullable: true),
+                    CircAbdominal = table.Column<double>(nullable: true),
+                    CircQuadril = table.Column<double>(nullable: true),
+                    CircPeito = table.Column<double>(nullable: true),
+                    CircBracoDireito = table.Column<double>(nullable: true),
+                    CircBracoEsquerdo = table.Column<double>(nullable: true),
+                    CircCoxadireita = table.Column<double>(nullable: true),
+                    CircCoxaEsquerda = table.Column<double>(nullable: true),
+                    CircPanturrilhaDireita = table.Column<double>(nullable: true),
+                    CircPanturrilhaEsquerda = table.Column<double>(nullable: true),
+                    DCTriceps = table.Column<double>(nullable: true),
+                    DCEscapular = table.Column<double>(nullable: true),
+                    DCSupraIliaca = table.Column<double>(nullable: true),
+                    DCAbdominal = table.Column<double>(nullable: true),
+                    DCAxilar = table.Column<double>(nullable: true),
+                    DCPeitoral = table.Column<double>(nullable: true),
+                    DCCoxa = table.Column<double>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -193,13 +199,40 @@ namespace NutriV2.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Pagamentos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ConsultaId = table.Column<int>(nullable: false),
+                    TipoDePagamento = table.Column<int>(nullable: false),
+                    Data = table.Column<DateTime>(nullable: false),
+                    DataVencimento = table.Column<DateTime>(nullable: true),
+                    PacienteId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pagamentos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pagamentos_PACIENTES_PacienteId",
+                        column: x => x.PacienteId,
+                        principalTable: "PACIENTES",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Consulta",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    NutricionistaId = table.Column<int>(nullable: false),
                     PacienteId = table.Column<int>(nullable: false),
-                    AvaliacaoId = table.Column<int>(nullable: false)
+                    AvaliacaoId = table.Column<int>(nullable: true),
+                    PagamentoId = table.Column<int>(nullable: true),
+                    DataConsulta = table.Column<DateTime>(nullable: false),
+                    Observacoes = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -209,6 +242,12 @@ namespace NutriV2.Migrations
                         column: x => x.AvaliacaoId,
                         principalTable: "AvaliacaoFisica",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Consulta_Nutricionistas_NutricionistaId",
+                        column: x => x.NutricionistaId,
+                        principalTable: "Nutricionistas",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Consulta_PACIENTES_PacienteId",
@@ -216,6 +255,12 @@ namespace NutriV2.Migrations
                         principalTable: "PACIENTES",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Consulta_Pagamentos_PagamentoId",
+                        column: x => x.PagamentoId,
+                        principalTable: "Pagamentos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -229,6 +274,11 @@ namespace NutriV2.Migrations
                 column: "PacienteId1");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AnotacosPaciente_PacienteId",
+                table: "AnotacosPaciente",
+                column: "PacienteId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AvaliacaoFisica_PacienteId",
                 table: "AvaliacaoFisica",
                 column: "PacienteId");
@@ -239,14 +289,29 @@ namespace NutriV2.Migrations
                 column: "AvaliacaoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Consulta_NutricionistaId",
+                table: "Consulta",
+                column: "NutricionistaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Consulta_PacienteId",
                 table: "Consulta",
                 column: "PacienteId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Consulta_PagamentoId",
+                table: "Consulta",
+                column: "PagamentoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Formacoes_NutricionistaId",
                 table: "Formacoes",
                 column: "NutricionistaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pagamentos_PacienteId",
+                table: "Pagamentos",
+                column: "PacienteId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -261,19 +326,22 @@ namespace NutriV2.Migrations
                 name: "ANMINESE");
 
             migrationBuilder.DropTable(
+                name: "AnotacosPaciente");
+
+            migrationBuilder.DropTable(
                 name: "Consulta");
 
             migrationBuilder.DropTable(
                 name: "Formacoes");
 
             migrationBuilder.DropTable(
-                name: "Pagamentos");
-
-            migrationBuilder.DropTable(
                 name: "TipoMedidas");
 
             migrationBuilder.DropTable(
                 name: "AvaliacaoFisica");
+
+            migrationBuilder.DropTable(
+                name: "Pagamentos");
 
             migrationBuilder.DropTable(
                 name: "Nutricionistas");

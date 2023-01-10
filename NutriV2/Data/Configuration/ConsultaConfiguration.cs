@@ -11,6 +11,8 @@ namespace NutriV2.Data.Configuration
             builder.ToTable("Consulta");
             builder.HasKey(p=>new{p.Id});
             builder.Property(p=>p.Id).ValueGeneratedOnAdd();
+                
+            
         }
     }
 }

@@ -37,7 +37,7 @@
                         </tbody>
                     </table>
                 </div>
-                <p class="float-left m-3"><b>@Model.ToList().Count  @textoPaciente</b></p>
+                <p class="float-left m-3 text-secondary"><b>@Model.ToList().Count  @textoPaciente</b></p>
                 <button onclick="AbrirModalParaCadastro()" class="float-right mr-2 btn btn-secondary mt-3">
                     <i class="fa fa-plus" title="Cadastrar Novo Paciente"></i>
                 </button>
@@ -55,9 +55,9 @@
                         <partial name="AcoesPaciente/_DetalhesPaciente" for="@pacienteDetalhado" />
                     </div>
 
-                    <button class="btn btn-light ml-2 mt-3" style="border-radius:25px;">
+                    <a href="@Url.Action("ConsultasDoPaciente","Paciente",new {Id=pacienteDetalhado.Id})" class="btn btn-light ml-2 mt-3" style="border-radius:25px;">
                         <i class="fa fa-stethoscope" aria-hidden="true" title="Consultas"></i>
-                    </button>
+                    </a>
 
                     <a href="@Url.Action("AvaliacoesDoPaciente","Paciente",new {Id=pacienteDetalhado.Id})" class="btn btn-light ml-2 mt-3" style="border-radius:25px;">
                         <i class="fa fa-table" title="Avaliações"></i>

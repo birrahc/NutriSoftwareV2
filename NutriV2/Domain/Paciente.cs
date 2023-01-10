@@ -6,7 +6,7 @@ namespace NutriV2.Domain
     {
          public int AnmineseId { get; set; }
         public ICollection<AvaliacaoFisica>  Avaliacoes { get; set; }
-        public ICollection<Consulta>  Consultas { get; set; }
+        public ICollection<Consulta>Consultas { get; set; }
         public ICollection<Agenda> HorariosAgendados { get; set; }
         public ICollection<Pagamento> Pagamentos { get; set; }
         public ICollection<AnotacoesPaciente>Anotacoes { get; set; }

@@ -1,5 +1,6 @@
 using NutriV2.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace NutriV2.Domain
 {
@@ -9,9 +10,10 @@ namespace NutriV2.Domain
         public int ConsultaId { get; set; }
         public EN_TipoPagamento TipoDePagamento { get; set; }
         public DateTime Data { get; set; }
-        //   public Consulta ? Consulta { get; set; }
         public DateTime? DataVencimento { get; set; }
         public int PacienteId { get; set; }
         public Paciente Paciente { get; set; }
+        public ICollection<Consulta> Consulta { get; set; }
+       
     }
 }
