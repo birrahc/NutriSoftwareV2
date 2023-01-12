@@ -18,6 +18,9 @@ namespace Data.NutriDbContext
         public DbSet<Paciente> pacientes{get ; set;}
         public DbSet<Pagamento> Pagamentos{get ; set;}
         public DbSet<TipoMedida> TipoMedidas{get ; set;}
+        public DbSet<Dieta> Dieta{get ; set;}
+        public DbSet<HoraAlimentos> HoraAlimentos{get ; set;}
+        public DbSet<QuantidadeAlimento> QuandadeAlimento{get ; set;}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
         {
             //var connetionString = Configuration.GetConnectionString("DefaultConnection");

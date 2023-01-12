@@ -192,6 +192,9 @@ namespace NutriV2.Migrations
                     b.Property<DateTime>("DataConsulta")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("DietaId")
+                        .HasColumnType("VARCHAR(50)");
+
                     b.Property<int>("NutricionistaId")
                         .HasColumnType("int");
 
@@ -208,6 +211,9 @@ namespace NutriV2.Migrations
 
                     b.HasIndex("AvaliacaoId");
 
+                    b.HasIndex("DietaId")
+                        .IsUnique();
+
                     b.HasIndex("NutricionistaId");
 
                     b.HasIndex("PacienteId");
@@ -215,6 +221,19 @@ namespace NutriV2.Migrations
                     b.HasIndex("PagamentoId");
 
                     b.ToTable("Consulta");
+                });
+
+            modelBuilder.Entity("NutriV2.Domain.Dieta", b =>
+                {
+                    b.Property<string>("CodigoDieta")
+                        .HasColumnType("VARCHAR(50)");
+
+                    b.Property<string>("Anotacoes")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CodigoDieta");
+
+                    b.ToTable("Dietas");
                 });
 
             modelBuilder.Entity("NutriV2.Domain.Formacao", b =>
@@ -234,6 +253,30 @@ namespace NutriV2.Migrations
                     b.HasIndex("NutricionistaId");
 
                     b.ToTable("Formacoes");
+                });
+
+            modelBuilder.Entity("NutriV2.Domain.HoraAlimentos", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CodigoDieta")
+                        .HasColumnType("VARCHAR(50)");
+
+                    b.Property<string>("Hora")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(5)");
+
+                    b.Property<string>("Observacao")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id", "CodigoDieta");
+
+                    b.HasIndex("CodigoDieta");
+
+                    b.ToTable("HoraAlimentos");
                 });
 
             modelBuilder.Entity("NutriV2.Domain.Nutricionista", b =>
@@ -335,6 +378,43 @@ namespace NutriV2.Migrations
                     b.ToTable("Pagamentos");
                 });
 
+            modelBuilder.Entity("NutriV2.Domain.QuantidadeAlimento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CodigoDieta")
+                        .HasColumnType("VARCHAR(50)");
+
+                    b.Property<int>("AlimentoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("HoraAlimentosCodigoDieta")
+                        .HasColumnType("VARCHAR(50)");
+
+                    b.Property<int?>("HoraAlimentosId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TipoMedidaId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("quantidade")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id", "CodigoDieta");
+
+                    b.HasIndex("AlimentoId");
+
+                    b.HasIndex("CodigoDieta");
+
+                    b.HasIndex("TipoMedidaId");
+
+                    b.HasIndex("HoraAlimentosId", "HoraAlimentosCodigoDieta");
+
+                    b.ToTable("QuantidadeAlimento");
+                });
+
             modelBuilder.Entity("NutriV2.Domain.TipoMedida", b =>
                 {
                     b.Property<int>("Id")
@@ -389,6 +469,10 @@ namespace NutriV2.Migrations
                         .WithMany()
                         .HasForeignKey("AvaliacaoId");
 
+                    b.HasOne("NutriV2.Domain.Dieta", "Dieta")
+                        .WithOne()
+                        .HasForeignKey("NutriV2.Domain.Consulta", "DietaId");
+
                     b.HasOne("NutriV2.Domain.Nutricionista", "Nutricionista")
                         .WithMany("Consultas")
                         .HasForeignKey("NutricionistaId")
@@ -415,6 +499,15 @@ namespace NutriV2.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("NutriV2.Domain.HoraAlimentos", b =>
+                {
+                    b.HasOne("NutriV2.Domain.Dieta", "Dieta")
+                        .WithMany("HoraAlimentos")
+                        .HasForeignKey("CodigoDieta")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("NutriV2.Domain.Pagamento", b =>
                 {
                     b.HasOne("NutriV2.Domain.Paciente", "Paciente")
@@ -422,6 +515,31 @@ namespace NutriV2.Migrations
                         .HasForeignKey("PacienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("NutriV2.Domain.QuantidadeAlimento", b =>
+                {
+                    b.HasOne("NutriV2.Domain.Alimento", "Alimento")
+                        .WithMany()
+                        .HasForeignKey("AlimentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NutriV2.Domain.Dieta", "Dieta")
+                        .WithMany()
+                        .HasForeignKey("CodigoDieta")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NutriV2.Domain.TipoMedida", "TipoMedia")
+                        .WithMany()
+                        .HasForeignKey("TipoMedidaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NutriV2.Domain.HoraAlimentos", null)
+                        .WithMany("QuantidadeAlimento")
+                        .HasForeignKey("HoraAlimentosId", "HoraAlimentosCodigoDieta");
                 });
 #pragma warning restore 612, 618
         }

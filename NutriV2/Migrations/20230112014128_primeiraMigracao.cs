@@ -23,6 +23,18 @@ namespace NutriV2.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Dietas",
+                columns: table => new
+                {
+                    CodigoDieta = table.Column<string>(type: "VARCHAR(50)", nullable: false),
+                    Anotacoes = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dietas", x => x.CodigoDieta);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Nutricionistas",
                 columns: table => new
                 {
@@ -73,6 +85,27 @@ namespace NutriV2.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TipoMedidas", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HoraAlimentos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CodigoDieta = table.Column<string>(type: "VARCHAR(50)", nullable: false),
+                    Hora = table.Column<string>(type: "VARCHAR(5)", nullable: false),
+                    Observacao = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HoraAlimentos", x => new { x.Id, x.CodigoDieta });
+                    table.ForeignKey(
+                        name: "FK_HoraAlimentos_Dietas_CodigoDieta",
+                        column: x => x.CodigoDieta,
+                        principalTable: "Dietas",
+                        principalColumn: "CodigoDieta",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -222,6 +255,48 @@ namespace NutriV2.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "QuantidadeAlimento",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CodigoDieta = table.Column<string>(type: "VARCHAR(50)", nullable: false),
+                    AlimentoId = table.Column<int>(nullable: false),
+                    TipoMedidaId = table.Column<int>(nullable: false),
+                    quantidade = table.Column<decimal>(nullable: false),
+                    HoraAlimentosCodigoDieta = table.Column<string>(nullable: true),
+                    HoraAlimentosId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuantidadeAlimento", x => new { x.Id, x.CodigoDieta });
+                    table.ForeignKey(
+                        name: "FK_QuantidadeAlimento_Alimentos_AlimentoId",
+                        column: x => x.AlimentoId,
+                        principalTable: "Alimentos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_QuantidadeAlimento_Dietas_CodigoDieta",
+                        column: x => x.CodigoDieta,
+                        principalTable: "Dietas",
+                        principalColumn: "CodigoDieta",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_QuantidadeAlimento_TipoMedidas_TipoMedidaId",
+                        column: x => x.TipoMedidaId,
+                        principalTable: "TipoMedidas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_QuantidadeAlimento_HoraAlimentos_HoraAlimentosId_HoraAliment~",
+                        columns: x => new { x.HoraAlimentosId, x.HoraAlimentosCodigoDieta },
+                        principalTable: "HoraAlimentos",
+                        principalColumns: new[] { "Id", "CodigoDieta" },
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Consulta",
                 columns: table => new
                 {
@@ -230,6 +305,7 @@ namespace NutriV2.Migrations
                     NutricionistaId = table.Column<int>(nullable: false),
                     PacienteId = table.Column<int>(nullable: false),
                     AvaliacaoId = table.Column<int>(nullable: true),
+                    DietaId = table.Column<string>(nullable: true),
                     PagamentoId = table.Column<int>(nullable: true),
                     DataConsulta = table.Column<DateTime>(nullable: false),
                     Observacoes = table.Column<string>(nullable: true)
@@ -242,6 +318,12 @@ namespace NutriV2.Migrations
                         column: x => x.AvaliacaoId,
                         principalTable: "AvaliacaoFisica",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Consulta_Dietas_DietaId",
+                        column: x => x.DietaId,
+                        principalTable: "Dietas",
+                        principalColumn: "CodigoDieta",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Consulta_Nutricionistas_NutricionistaId",
@@ -289,6 +371,12 @@ namespace NutriV2.Migrations
                 column: "AvaliacaoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Consulta_DietaId",
+                table: "Consulta",
+                column: "DietaId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Consulta_NutricionistaId",
                 table: "Consulta",
                 column: "NutricionistaId");
@@ -309,18 +397,40 @@ namespace NutriV2.Migrations
                 column: "NutricionistaId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_HoraAlimentos_CodigoDieta",
+                table: "HoraAlimentos",
+                column: "CodigoDieta");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Pagamentos_PacienteId",
                 table: "Pagamentos",
                 column: "PacienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuantidadeAlimento_AlimentoId",
+                table: "QuantidadeAlimento",
+                column: "AlimentoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuantidadeAlimento_CodigoDieta",
+                table: "QuantidadeAlimento",
+                column: "CodigoDieta");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuantidadeAlimento_TipoMedidaId",
+                table: "QuantidadeAlimento",
+                column: "TipoMedidaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuantidadeAlimento_HoraAlimentosId_HoraAlimentosCodigoDieta",
+                table: "QuantidadeAlimento",
+                columns: new[] { "HoraAlimentosId", "HoraAlimentosCodigoDieta" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "AGENDA_PACIENTE");
-
-            migrationBuilder.DropTable(
-                name: "Alimentos");
 
             migrationBuilder.DropTable(
                 name: "ANMINESE");
@@ -335,7 +445,7 @@ namespace NutriV2.Migrations
                 name: "Formacoes");
 
             migrationBuilder.DropTable(
-                name: "TipoMedidas");
+                name: "QuantidadeAlimento");
 
             migrationBuilder.DropTable(
                 name: "AvaliacaoFisica");
@@ -347,7 +457,19 @@ namespace NutriV2.Migrations
                 name: "Nutricionistas");
 
             migrationBuilder.DropTable(
+                name: "Alimentos");
+
+            migrationBuilder.DropTable(
+                name: "TipoMedidas");
+
+            migrationBuilder.DropTable(
+                name: "HoraAlimentos");
+
+            migrationBuilder.DropTable(
                 name: "PACIENTES");
+
+            migrationBuilder.DropTable(
+                name: "Dietas");
         }
     }
 }
