@@ -1,0 +1,57 @@
+﻿@model NutriSoftware.Negocio.Domain.Consulta
+
+<h2 class="text-center" style="margin-top:75px;">Paciente: <b>@Model?.Paciente.Nome</b></h2>
+<div id="pnlConsultaCompleta">
+    @*<div class="row" id="pnlAnotacoes">
+            <div class="container">
+                <div class="col-12">
+                    <h3>Anotações</h3>
+                    <textarea readonly name="Anotacoes" class="form-control" rows="10"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div id="pnlAvaliacao">
+            <partial name="PartiaisConsulta/PartiaisAvaliacao/_AvaliacoesPaciente" for="@Model.Avaliacao" />
+        </div>
+
+        <div class="row" id="pnlDieta">
+            <partial name="PartiaisConsulta/PartiaisDieta/_DietasPaciente" for="@Model.Dieta" />
+        </div>*@
+</div>
+
+<div id="pnlCadastro" style="margin-top:40px;">
+
+    <div class="row" id="pnlCadastroAnotacoes">
+        <div class="container" style="border: solid 2px #c4c0c0; padding: 0 0 10px 0; ">
+            <div class="col-12">
+                <h3 class="text-center" style="background-color: #acacac; border-radius: 0 0 50px 50px; padding: 0px 0 10px 0; color: #6c6b6b;">Anotações</h3>
+                <form method="post" id="frmObservacaoConslta" class="p-0 m-0">
+                    <input type="hidden" name="PacienteId" value="@Model.PacienteId" />
+                    <input type="hidden" name="Codigo" value="@ViewBag.Codigo" />
+                    <textarea asp-for="Observacoes" class="form-control" rows="10" id="txtAnotacoesIniciaisConsulta"></textarea>
+                    <div id="plnBotaoAnotacoes" class="mt-1">
+                        <button type="button" onclick="inserirAnotacoes()" class="btn btn-primary" id="btnInserirAnotacoes">
+                            Proximo <i class="fa fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div id="pnlBotaoEditarObservacaoConsulta" style="display:none;" class="mt-1">
+                        <button type="button" onclick="inserirAnotacoes()" class="btn btn-secondary" id="btnInserirAnotacoes">
+                            <i class="fa fa-pencil"></i> Editar
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="pnlCadastroAvaliacao">
+
+        <partial name="PartiaisConsulta/PartiaisAvaliacao/_FomularioAvaliacao" for="@Model.Avaliacao" />
+    </div>
+
+    <div class="row" id="pnlCadastroDieta">
+        <partial name="PartiaisConsulta/PartiaisDieta/_CadastrarDieta" for="@Model.Dieta" />
+    </div>
+</div>
